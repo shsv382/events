@@ -13,17 +13,14 @@ let robots = [
     new Robot(1, "First", "first@robot.ru"),
     new Robot(2, "Second", "second@robot.ru"),
     new Robot(3, "Third", "third@robot.ru"),
-    new Robot(4, "First", "first@robot.ru"),
-    new Robot(5, "Second", "second@robot.ru"),
-    new Robot(6, "Third", "third@robot.ru"),
+    new Robot(4, "Fourth", "first@robot.ru"),
+    new Robot(5, "Fifth", "second@robot.ru"),
+    new Robot(6, "Sixth", "third@robot.ru"),
 ];
 
 function appendRobot(robot) {
     const robotContainer = document.createElement("div");
     robotContainer.classList.add("robot");
-    robotContainer.dataset.id = robot.id;
-    robotContainer.dataset.name = robot.name;
-    robotContainer.dataset.email = robot.email;
 
     const robotAvatar = document.createElement("img");
     robotAvatar.classList.add("robot__avatar");
@@ -40,9 +37,13 @@ function appendRobot(robot) {
 
     const removeButton = document.createElement("button");
     removeButton.innerHTML = "Remove";
-    removeButton.onclick = (e) => {
-        robotContainer.remove();
-        console.log(robots) // Должно удалять элемент из массива
+    removeButton.onclick = () => {
+        robotContainer.remove(); // Удаляет элемент из DOM
+
+        // Удаляет робота из массива
+        robots.splice(
+            robots.findIndex(r => r.id === robot.id), 1
+        );
     }
     robotContainer.append(removeButton);
 
@@ -51,12 +52,14 @@ function appendRobot(robot) {
 
 robots.forEach((robot) => appendRobot(robot));
 
-function createRobot(e) {
-    let robotID = Math.ceil(Math.random() * 10);
+function createRobot() {
+    let robotID = robots[robots.length - 1].id + 1;
     let robotName = document.querySelector("#name").value;
     let robotEmail = document.querySelector("#email").value;
 
-    appendRobot(new Robot(robotID, robotName, robotEmail));
+    let newRobot = new Robot(robotID, robotName, robotEmail);
+    robots.push(newRobot);
+    appendRobot(newRobot);
 
     document.querySelector("#name").value = "";
     document.querySelector("#email").value = "";
