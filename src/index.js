@@ -18,6 +18,25 @@ let robots = [
     new Robot(6, "Sixth", "third@robot.ru"),
 ];
 
+let filteredRobots = robots;
+
+let filterInput = document.querySelector(".robots-filter");
+filterInput.onkeyup = (e) => {
+    filteredRobots = robots.filter(
+        item => item.name.toLowerCase().includes(e.target.value.toLowerCase())
+    );
+
+    let robotsDiv = document.querySelector(".robots");
+    [...robotsDiv.children].forEach(item => {
+        if (item.classList.contains("robot") && !item.classList.contains("create-robot")) {
+            item.remove();
+        }
+    })
+
+    filteredRobots.forEach(item => appendRobot(item))
+    console.log(filteredRobots);
+}
+
 function appendRobot(robot) {
     const robotContainer = document.createElement("div");
     robotContainer.classList.add("robot");
@@ -46,15 +65,7 @@ function appendRobot(robot) {
         );
     }
     robotContainer.append(removeButton);
-
     robotContainer.oncontextmenu = showRobotInfo(robot);
-
-    // robotContainer.onclick = (e) => {
-    //     if (e.button == 2) {
-    //         alert("Клик правой конпой по " + robot.name)
-    //     }
-    // }
-
     document.querySelector(".robots").append(robotContainer);
 }
 
