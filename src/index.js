@@ -53,7 +53,7 @@ function appendRobot(robot) {
 robots.forEach((robot) => appendRobot(robot));
 
 function createRobot() {
-    let robotID = robots[robots.length - 1].id + 1;
+    let robotID = robots.length ? robots[robots.length - 1].id + 1 : 1;
     let robotName = document.querySelector("#name").value;
     let robotEmail = document.querySelector("#email").value;
 
