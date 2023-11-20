@@ -47,6 +47,14 @@ function appendRobot(robot) {
     }
     robotContainer.append(removeButton);
 
+    robotContainer.oncontextmenu = showRobotInfo(robot);
+
+    // robotContainer.onclick = (e) => {
+    //     if (e.button == 2) {
+    //         alert("Клик правой конпой по " + robot.name)
+    //     }
+    // }
+
     document.querySelector(".robots").append(robotContainer);
 }
 
@@ -66,3 +74,29 @@ function createRobot() {
 }
 
 document.querySelector("#create").onclick = createRobot;
+
+// Вызов контекстного меню
+let showRobotCard = false;
+let robotCard = document.querySelector(".robot-card");
+robotCard.style.display = showRobotCard ? "flex" : "none";
+
+document.body.addEventListener("click", () => {
+    let showRobotCard = false;
+    robotCard.style.display = showRobotCard ? "flex" : "none";
+})
+
+function showRobotInfo(robot) {
+    return function(e) {
+        robotCard.innerHTML = "";
+        const robotAvatar = document.createElement("img");
+        robotAvatar.src = `https://robohash.org/${robot.id}?size=300x300`;
+        robotCard.append(robotAvatar);
+
+        showRobotCard = true;
+        robotCard.style.display = showRobotCard ? "flex" : "none";
+        robotCard.style.top = e.clientY + "px";
+        robotCard.style.left = e.clientX + "px";
+        
+        e.preventDefault();
+    }
+}
