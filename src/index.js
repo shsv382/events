@@ -21,7 +21,7 @@ let robots = [
 let filteredRobots = robots;
 
 let filterInput = document.querySelector(".robots-filter");
-filterInput.onkeyup = (e) => {
+filterInput.oninput = (e) => {
     filteredRobots = robots.filter(
         item => item.name.toLowerCase().includes(e.target.value.toLowerCase())
     );
