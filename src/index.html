@@ -13,13 +13,13 @@
                     <h3>Filter robots</h3>
                     <input class="robots-filter" type="text" name="filterRobot" />
                 </div>
-                <div class="robot create-robot">
+                <form class="robot create-robot" action="/" method="POST">
                     <label for="name">Robot's name</label>
                     <input type="text" name="name" id="name" value="" />
                     <label for="email">Robot's email</label>
                     <input type="email" name="email" id="email" value="" />
-                    <button id="create">Create robot</button>
-                </div>
+                    <input type="submit" id="create" value="Create Robot" />
+                </form>
             </div>
         </div> 
         <div class="robot-card"></div>

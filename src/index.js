@@ -72,20 +72,20 @@ function appendRobot(robot) {
 
 robots.forEach((robot) => appendRobot(robot));
 
-function createRobot() {
-    let robotID = robots.length ? robots[robots.length - 1].id + 1 : 1;
-    let robotName = document.querySelector("#name").value;
-    let robotEmail = document.querySelector("#email").value;
+// function createRobot() {
+//     let robotID = robots.length ? robots[robots.length - 1].id + 1 : 1;
+//     let robotName = document.querySelector("#name").value;
+//     let robotEmail = document.querySelector("#email").value;
 
-    let newRobot = new Robot(robotID, robotName, robotEmail);
-    robots.push(newRobot);
-    appendRobot(newRobot);
+//     let newRobot = new Robot(robotID, robotName, robotEmail);
+//     robots.push(newRobot);
+//     appendRobot(newRobot);
 
-    document.querySelector("#name").value = "";
-    document.querySelector("#email").value = "";
-}
+//     document.querySelector("#name").value = "";
+//     document.querySelector("#email").value = "";
+// }
 
-document.querySelector("#create").onclick = createRobot;
+// document.querySelector("#create").onclick = createRobot;
 
 // Вызов контекстного меню
 let showRobotCard = false;
@@ -112,3 +112,36 @@ function showRobotInfo(robot) {
         e.preventDefault();
     }
 }
+
+document.forms[0].onsubmit = function(e) {
+    e.preventDefault();
+    console.log(`
+        name: ${capitalize(e.target.elements[0].value)}
+        email: ${e.target.elements[1].value}
+    `)
+}
+
+function capitalize(string) {
+    return string[0].toUpperCase() + string.slice(1).toLowerCase()
+}
+
+let [nameInput, emailInput] = document.forms[0].elements;
+nameInput.oninput = handleInput;
+emailInput.oninput = handleInput;
+
+function handleInput(e) {
+    window.localStorage.createRobot = JSON.stringify({
+        name: nameInput.value,
+        email: emailInput.value
+    })
+
+    console.log(JSON.parse(window.localStorage.createRobot))
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (window.localStorage.createRobot) {
+        let data = JSON.parse(window.localStorage.createRobot)
+        nameInput.value = data.name;
+        emailInput.value = data.email;
+    }
+})
