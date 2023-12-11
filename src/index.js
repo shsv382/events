@@ -41,6 +41,7 @@ function appendRobot(robot) {
     const robotContainer = document.createElement("div");
     robotContainer.classList.add("robot");
 
+    robotContainer.onclick = e => console.log(e);
     const robotAvatar = document.createElement("img");
     robotAvatar.classList.add("robot__avatar");
     robotAvatar.src = `https://robohash.org/${robot.id}?size=200x200`;
