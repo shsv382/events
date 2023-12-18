@@ -7,6 +7,38 @@ class Robot {
         this.name = name;
         this.email = email;
     }
+
+    appendRobot(selector) {
+        const robotContainer = document.createElement("div");
+        robotContainer.classList.add("robot");
+    
+        robotContainer.onclick = e => console.log(e);
+        const robotAvatar = document.createElement("img");
+        robotAvatar.classList.add("robot__avatar");
+        robotAvatar.src = `https://robohash.org/${this.id}?size=200x200`;
+        robotContainer.append(robotAvatar);
+    
+        const robotName = document.createElement("h3");
+        robotName.innerHTML = this.name;
+        robotContainer.append(robotName);
+    
+        const robotEmail = document.createElement("p");
+        robotEmail.innerHTML = this.email;
+        robotContainer.append(robotEmail);
+    
+        const removeButton = document.createElement("button");
+        removeButton.innerHTML = "Remove";
+        removeButton.onclick = () => {
+            robotContainer.remove(); // Удаляет элемент из DOM
+    
+            // Удаляет робота из массива
+            robots.splice(
+                robots.findIndex(r => r.id === this.id), 1
+            );
+        }
+        robotContainer.append(removeButton);
+        document.querySelector(selector).append(robotContainer);
+    }
 }
 
 let robots = [
@@ -33,57 +65,17 @@ filterInput.oninput = (e) => {
         }
     })
 
-    filteredRobots.forEach(item => appendRobot(item))
-    console.log(filteredRobots);
+    filteredRobots.forEach(robot => robot.appendRobot(".robots"))
 }
 
-function appendRobot(robot) {
-    const robotContainer = document.createElement("div");
-    robotContainer.classList.add("robot");
+robots.forEach(robot => robot.appendRobot(".robots"));
 
-    robotContainer.onclick = e => console.log(e);
-    const robotAvatar = document.createElement("img");
-    robotAvatar.classList.add("robot__avatar");
-    robotAvatar.src = `https://robohash.org/${robot.id}?size=200x200`;
-    robotContainer.append(robotAvatar);
-
-    const robotName = document.createElement("h3");
-    robotName.innerHTML = robot.name;
-    robotContainer.append(robotName);
-
-    const robotEmail = document.createElement("p");
-    robotEmail.innerHTML = robot.email;
-    robotContainer.append(robotEmail);
-
-    const removeButton = document.createElement("button");
-    removeButton.innerHTML = "Remove";
-    removeButton.onclick = () => {
-        robotContainer.remove(); // Удаляет элемент из DOM
-
-        // Удаляет робота из массива
-        robots.splice(
-            robots.findIndex(r => r.id === robot.id), 1
-        );
-    }
-    robotContainer.append(removeButton);
-    robotContainer.oncontextmenu = showRobotInfo(robot);
-    document.querySelector(".robots").append(robotContainer);
+function createRobot(name, email) {
+    let robotID = robots.length ? robots[robots.length - 1].id + 1 : 1;
+    let newRobot = new Robot(robotID, name, email);
+    robots.push(newRobot);
+    newRobot.appendRobot(".robots");
 }
-
-robots.forEach((robot) => appendRobot(robot));
-
-// function createRobot() {
-//     let robotID = robots.length ? robots[robots.length - 1].id + 1 : 1;
-//     let robotName = document.querySelector("#name").value;
-//     let robotEmail = document.querySelector("#email").value;
-
-//     let newRobot = new Robot(robotID, robotName, robotEmail);
-//     robots.push(newRobot);
-//     appendRobot(newRobot);
-
-//     document.querySelector("#name").value = "";
-//     document.querySelector("#email").value = "";
-// }
 
 // document.querySelector("#create").onclick = createRobot;
 
@@ -97,28 +89,11 @@ document.body.addEventListener("click", () => {
     robotCard.style.display = showRobotCard ? "flex" : "none";
 })
 
-function showRobotInfo(robot) {
-    return function(e) {
-        robotCard.innerHTML = "";
-        const robotAvatar = document.createElement("img");
-        robotAvatar.src = `https://robohash.org/${robot.id}?size=300x300`;
-        robotCard.append(robotAvatar);
-
-        showRobotCard = true;
-        robotCard.style.display = showRobotCard ? "flex" : "none";
-        robotCard.style.top = e.clientY + "px";
-        robotCard.style.left = e.clientX + "px";
-        
-        e.preventDefault();
-    }
-}
-
 document.forms[0].onsubmit = function(e) {
     e.preventDefault();
-    console.log(`
-        name: ${capitalize(e.target.elements[0].value)}
-        email: ${e.target.elements[1].value}
-    `)
+    createRobot(capitalize(e.target.elements[0].value), e.target.elements[1].value);
+    e.target.elements[0].value = "";
+    e.target.elements[1].value = "";
 }
 
 function capitalize(string) {
