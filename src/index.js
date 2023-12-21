@@ -43,11 +43,15 @@ class Robot {
 
 let robots = [];
 
-await fetch("https://jsonplaceholder.typicode.com/users")
-    .then(response => response.json())
-    .then(data => {
-        robots = data.map(({id, name, email}) => new Robot(id, name, email))
-    })
+async function getRobots(url) {
+    const response = await fetch(url);
+    const robotsArray = await response.json();
+    robots = robotsArray.map(({id, name, email}) => new Robot(id, name, email));
+}
+
+const url = "https://jsonplaceholder.typicode.com/users";
+
+await getRobots(url);
 
 // let robots = JSON.parse(robotsData);
 // robots = robots.map(({id, name, email}) => new Robot(id, name, email))
