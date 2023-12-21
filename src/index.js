@@ -41,14 +41,25 @@ class Robot {
     }
 }
 
-let robots = [
-    new Robot(1, "First", "first@robot.ru"),
-    new Robot(2, "Second", "second@robot.ru"),
-    new Robot(3, "Third", "third@robot.ru"),
-    new Robot(4, "Fourth", "first@robot.ru"),
-    new Robot(5, "Fifth", "second@robot.ru"),
-    new Robot(6, "Sixth", "third@robot.ru"),
-];
+let robots = [];
+
+await fetch("https://jsonplaceholder.typicode.com/users")
+    .then(response => response.json())
+    .then(data => {
+        robots = data.map(({id, name, email}) => new Robot(id, name, email))
+    })
+
+// let robots = JSON.parse(robotsData);
+// robots = robots.map(({id, name, email}) => new Robot(id, name, email))
+
+// let robots = [
+//     new Robot(1, "First", "first@robot.ru"),
+//     new Robot(2, "Second", "second@robot.ru"),
+//     new Robot(3, "Third", "third@robot.ru"),
+//     new Robot(4, "Fourth", "first@robot.ru"),
+//     new Robot(5, "Fifth", "second@robot.ru"),
+//     new Robot(6, "Sixth", "third@robot.ru"),
+// ];
 
 let filteredRobots = robots;
 
