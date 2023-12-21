@@ -53,18 +53,6 @@ const url = "https://jsonplaceholder.typicode.com/users";
 
 await getRobots(url);
 
-// let robots = JSON.parse(robotsData);
-// robots = robots.map(({id, name, email}) => new Robot(id, name, email))
-
-// let robots = [
-//     new Robot(1, "First", "first@robot.ru"),
-//     new Robot(2, "Second", "second@robot.ru"),
-//     new Robot(3, "Third", "third@robot.ru"),
-//     new Robot(4, "Fourth", "first@robot.ru"),
-//     new Robot(5, "Fifth", "second@robot.ru"),
-//     new Robot(6, "Sixth", "third@robot.ru"),
-// ];
-
 let filteredRobots = robots;
 
 let filterInput = document.querySelector(".robots-filter");
@@ -91,8 +79,6 @@ function createRobot(name, email) {
     robots.push(newRobot);
     newRobot.appendRobot(".robots");
 }
-
-// document.querySelector("#create").onclick = createRobot;
 
 // Вызов контекстного меню
 let showRobotCard = false;
