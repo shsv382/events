@@ -49,9 +49,7 @@ async function getRobots(url) {
     robots = robotsArray.map(({id, name, email}) => new Robot(id, name, email));
 }
 
-const url = "https://jsonplaceholder.typicode.com/users";
-
-await getRobots(url);
+const URL = "https://jsonplaceholder.typicode.com/users";
 
 let filteredRobots = robots;
 
@@ -71,7 +69,11 @@ filterInput.oninput = (e) => {
     filteredRobots.forEach(robot => robot.appendRobot(".robots"))
 }
 
-robots.forEach(robot => robot.appendRobot(".robots"));
+getRobots(URL)
+    .then(() => {
+        robots.forEach(robot => robot.appendRobot(".robots"));
+    })
+    .catch(console.log)
 
 function createRobot(name, email) {
     let robotID = robots.length ? robots[robots.length - 1].id + 1 : 1;
